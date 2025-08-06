@@ -1,0 +1,322 @@
+<div class="officer-list-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="container">
+      <div class="header-content">
+        <div class="header-text">
+          <div class="breadcrumb">
+            <span>Admin Dashboard</span>
+            <span class="separator">›</span>
+            <span class="active">Officer Management</span>
+          </div>
+          <h1 class="main-title">Officer Directory</h1>
+          <p class="main-subtitle">
+            Manage and monitor all officers in your organization
+          </p>
+        </div>
+        
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-content">
+              <div class="stat-value">{{ officers.length }}</div>
+              <div class="stat-label">Total Officers</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-content">
+              <div class="stat-value">{{ getAverageRating() }}</div>
+              <div class="stat-label">Avg. Rating</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📍</div>
+            <div class="stat-content">
+              <div class="stat-value">{{ getUniqueAreasCount() }}</div>
+              <div class="stat-label">Areas</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Section -->
+  <div class="content-section">
+    <div class="container">
+      <div class="card">
+        <div class="card-header">
+          <div class="search-filter">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input 
+                type="text" 
+                [(ngModel)]="searchTerm" 
+                (input)="onSearch()" 
+                placeholder="Search by name, email or area..." 
+                class="search-input"
+              >
+              <button *ngIf="searchTerm" (click)="clearSearch()" class="clear-search">
+                ✕
+              </button>
+            </div>
+            <div class="filter-actions">
+              <button class="btn btn-outline" routerLink="/addOfficer">
+                ➕ Add Officer
+              </button>
+              <button class="btn btn-outline">
+                📥 Export
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card-body">
+          <!-- Loading State -->
+          <div *ngIf="isLoading" class="loading-container">
+            <div class="spinner"></div>
+            <p>Loading officers...</p>
+          </div>
+          
+          <!-- Empty State -->
+          <div *ngIf="!isLoading && filteredOfficers.length === 0" class="empty-state">
+            <div class="empty-icon">
+              👤
+            </div>
+            <h3>No Officers Found</h3>
+            <p *ngIf="searchTerm">No results match your search criteria. Try different keywords or clear your search.</p>
+            <p *ngIf="!searchTerm">There are no officers in the system yet. Add your first officer to get started.</p>
+            <button class="btn btn-primary" routerLink="/add-officer">
+              ➕ Add New Officer
+            </button>
+          </div>
+          
+          <!-- Table -->
+          <div *ngIf="!isLoading && filteredOfficers.length > 0" class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th (click)="sort('username')" class="sortable">
+                    Officer Name 
+                    <span class="sort-icon">
+                      <span *ngIf="sortColumn !== 'username'">↕️</span>
+                      <span *ngIf="sortColumn === 'username' && sortDirection === 'asc'">⬆️</span>
+                      <span *ngIf="sortColumn === 'username' && sortDirection === 'desc'">⬇️</span>
+                    </span>
+                  </th>
+                  <th (click)="sort('email')" class="sortable">
+                    Email 
+                    <span class="sort-icon">
+                      <span *ngIf="sortColumn !== 'email'">↕️</span>
+                      <span *ngIf="sortColumn === 'email' && sortDirection === 'asc'">⬆️</span>
+                      <span *ngIf="sortColumn === 'email' && sortDirection === 'desc'">⬇️</span>
+                    </span>
+                  </th>
+                  <th (click)="sort('area_of_control')" class="sortable">
+                    Area Of Control 
+                    <span class="sort-icon">
+                      <span *ngIf="sortColumn !== 'area_of_control'">↕️</span>
+                      <span *ngIf="sortColumn === 'area_of_control' && sortDirection === 'asc'">⬆️</span>
+                      <span *ngIf="sortColumn === 'area_of_control' && sortDirection === 'desc'">⬇️</span>
+                    </span>
+                  </th>
+                  <th (click)="sort('average_rating')" class="sortable">
+                    Rating 
+                    <span class="sort-icon">
+                      <span *ngIf="sortColumn !== 'average_rating'">↕️</span>
+                      <span *ngIf="sortColumn === 'average_rating' && sortDirection === 'asc'">⬆️</span>
+                      <span *ngIf="sortColumn === 'average_rating' && sortDirection === 'desc'">⬇️</span>
+                    </span>
+                  </th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let officer of paginatedOfficers" class="data-row">
+                  <td>
+                    <div class="officer-name">
+                      <div class="avatar">{{ officer.username.charAt(0) }}</div>
+                      <span>{{ officer.username }}</span>
+                    </div>
+                  </td>
+                  <td>{{ officer.email }}</td>
+                  <td>
+                    <span class="area-badge">{{ officer.area_of_control }}</span>
+                  </td>
+                  <td>
+                    <div class="rating">
+                      <span *ngFor="let star of getRatingStars(officer.average_rating || 0)" class="star">
+                        <span *ngIf="star === 'full'">⭐</span>
+                        <span *ngIf="star === 'half'">⭐</span>
+                        <span *ngIf="star === 'empty'">☆</span>
+                      </span>
+                      <span class="rating-value">{{ officer.average_rating || 0 }}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="action-buttons">
+                      <button class="action-btn edit-btn" title="Edit Officer">
+                        ✏️
+                      </button>
+                      <button class="action-btn view-btn" (click)="viewOfficer(officer)" title="View Details">
+                        👁️
+                      </button>
+                      <button class="action-btn delete-btn" (click)="confirmDelete(officer)" title="Delete Officer">
+                        🗑️
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Pagination -->
+          <div *ngIf="!isLoading && filteredOfficers.length > 0" class="pagination">
+            <div class="pagination-info">
+              Showing {{ (currentPage - 1) * itemsPerPage + 1 }} to 
+              {{ ((currentPage * itemsPerPage) < filteredOfficers.length) ? (currentPage * itemsPerPage) : filteredOfficers.length }} of 
+              {{ filteredOfficers.length }} officers
+            </div>
+            <div class="pagination-controls">
+              <button 
+                class="pagination-btn" 
+                [disabled]="currentPage === 1"
+                (click)="previousPage()"
+              >
+                ⬅️
+              </button>
+              
+              <ng-container *ngFor="let page of pages">
+                <span *ngIf="page === -1 || page === -2" class="pagination-ellipsis">...</span>
+                <button 
+                  *ngIf="page > 0"
+                  class="pagination-btn" 
+                  [class.active]="currentPage === page"
+                  (click)="goToPage(page)"
+                >
+                  {{ page }}
+                </button>
+              </ng-container>
+              
+              <button 
+                class="pagination-btn" 
+                [disabled]="currentPage === totalPages"
+                (click)="nextPage()"
+              >
+                ➡️
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay" *ngIf="showDeleteModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Confirm Deletion</h3>
+        <button class="close-btn" (click)="cancelDelete()">
+          ✕
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="warning-icon">
+          ⚠️
+        </div>
+        <p>Are you sure you want to delete officer <strong>{{ selectedOfficer?.username }}</strong>?</p>
+        <p class="warning-text">This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" (click)="cancelDelete()">Cancel</button>
+        <button class="btn btn-danger" (click)="proceedDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- View Officer Modal -->
+  <div class="modal-overlay" *ngIf="showViewModal">
+    <div class="modal-container view-modal">
+      <div class="modal-header">
+        <h3>Officer Details</h3>
+        <button class="close-btn" (click)="closeViewModal()">
+          ✕
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="officer-profile">
+          <div class="officer-avatar">
+            {{ selectedOfficer?.username?.charAt(0) }}
+          </div>
+          <h2 class="officer-full-name">{{ selectedOfficer?.username }}</h2>
+          
+          <div class="officer-rating">
+            <span *ngFor="let star of getRatingStars(selectedOfficer?.average_rating || 0)" class="star">
+              <span *ngIf="star === 'full'">⭐</span>
+              <span *ngIf="star === 'half'">⭐</span>
+              <span *ngIf="star === 'empty'">☆</span>
+            </span>
+            <span class="rating-value">{{ selectedOfficer?.average_rating || 0 }}</span>
+          </div>
+          
+          <div class="officer-details">
+            <div class="detail-item">
+              <div class="detail-label">
+                📧 Email
+              </div>
+              <div class="detail-value">{{ selectedOfficer?.email }}</div>
+            </div>
+            
+            <div class="detail-item">
+              <div class="detail-label">
+                📞 Phone
+              </div>
+              <div class="detail-value">{{ selectedOfficer?.phone_number || 'Not provided' }}</div>
+            </div>
+            
+            <div class="detail-item">
+              <div class="detail-label">
+                📍 Area of Control
+              </div>
+              <div class="detail-value">
+                <span class="area-badge large">{{ selectedOfficer?.area_of_control }}</span>
+              </div>
+            </div>
+            
+            <div class="detail-item">
+              <div class="detail-label">
+                📅 Joined Date
+              </div>
+              <div class="detail-value">{{ selectedOfficer?.created_at || 'Not available' }}</div>
+            </div>
+          </div>
+          
+          <div class="officer-stats">
+            <div class="stat-box">
+              <div class="stat-value">{{ selectedOfficer?.reports_count || 0 }}</div>
+              <div class="stat-label">Reports</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">{{ selectedOfficer?.resolved_count || 0 }}</div>
+              <div class="stat-label">Resolved</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">{{ selectedOfficer?.pending_count || 0 }}</div>
+              <div class="stat-label">Pending</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" (click)="closeViewModal()">Close</button>
+        <button class="btn btn-primary">
+          ✏️ Edit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

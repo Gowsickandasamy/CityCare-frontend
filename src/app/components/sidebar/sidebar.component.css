@@ -1,0 +1,101 @@
+.sidenav-container {
+  height: 100vh;
+}
+
+.custom-sidenav {
+  width: 210px;
+  background: linear-gradient(to bottom right, #0575e6, #00f2fe);
+  color: white;
+  padding-top: 20px;
+}
+
+.sidebar-header {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.sidebar-nav {
+  padding: 0;
+}
+
+.sidebar-nav a.mat-mdc-list-item {
+  color: white !important;
+  margin: 4px 8px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-nav a.mat-mdc-list-item:hover,
+.sidebar-nav a.mat-mdc-list-item.active {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.sidebar-nav .mat-mdc-list-item .mdc-list-item__content {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+.sidebar-nav mat-icon {
+  color: white;
+  margin-right: 16px;
+}
+
+.sidebar-nav span{
+  color: white;
+}
+
+.mobile-toolbar {
+  background-color: #f5f5f5;
+  color: #333;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.menu-button {
+  margin-right: 16px;
+}
+
+.toolbar-title {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.sidebar-nav a.active {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Desktop styles */
+@media screen and (min-width: 769px) {
+  .mobile-toolbar {
+    display: none;
+  }
+  
+  .content-wrapper {
+    margin-left: 0;
+  }
+}
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+  .custom-sidenav {
+    width: 280px;
+    position: fixed;
+    z-index: 1001;
+  }
+  
+  .mobile-toolbar {
+    display: flex;
+  }
+}
+
+/* Overlay for mobile when sidenav is open */
+@media screen and (max-width: 768px) {
+  .mat-sidenav-backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+}

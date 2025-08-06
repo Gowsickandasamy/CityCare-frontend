@@ -1,0 +1,36 @@
+    <div class="edit-profile-container" *ngIf="!loading">
+    <div class="profile-card">
+        <div class="profile-logo">
+        <span>{{ username.charAt(0) }}</span>
+        </div>
+
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input formControlName="username" type="text" id="username" />
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input formControlName="email" type="email" id="email" />
+        </div>
+
+        <div class="form-group">
+            <label for="phone_number">Phone Number</label>
+            <input formControlName="phone_number" type="text" id="phone_number" />
+        </div>
+
+        <div class="form-group password-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" disabled value="********" />
+            <button type="button" class="change-btn" routerLink = '/change-password'>Change Password</button>
+        </div>
+
+        <button type="submit" class="submit-btn" [disabled]="profileForm.invalid">
+            Save Changes
+        </button>
+        </form>
+    </div>
+    </div>
+
+    <div *ngIf="loading" class="loading">Loading...</div>

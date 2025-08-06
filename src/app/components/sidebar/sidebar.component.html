@@ -1,0 +1,90 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #sidenav
+    [mode]="sidenavMode"
+    [opened]="opened"
+    class="custom-sidenav"
+    [fixedInViewport]="true"
+  >
+    <div class="sidebar-header">
+      <h2>Menu</h2>
+    </div>
+
+    <mat-nav-list class="sidebar-nav">
+      <a
+        mat-list-item
+        routerLink="/home"
+        routerLinkActive="active"
+        (click)="closeSidenavOnMobile()"
+      >
+        <mat-icon matListItemIcon>home</mat-icon>
+        <span matListItemTitle>Home</span>
+      </a>
+      <a
+        mat-list-item
+        routerLink="/profile"
+        routerLinkActive="active"
+        (click)="closeSidenavOnMobile()"
+      >
+        <mat-icon matListItemIcon>person</mat-icon>
+        <span matListItemTitle>Profile</span>
+      </a>
+      <a
+        mat-list-item
+        routerLink="/addOfficer"
+        routerLinkActive="active"
+        (click)="closeSidenavOnMobile()"
+        *ngIf="isAdmin()"
+      >
+        <mat-icon matListItemIcon>supervisor_account</mat-icon>
+        <span matListItemTitle>Add Officer</span>
+      </a>
+      <a
+        mat-list-item
+        routerLink="/createComplaint"
+        routerLinkActive="active"
+        (click)="closeSidenavOnMobile()"
+        *ngIf="isUser()"
+      >
+        <mat-icon matListItemIcon>queue</mat-icon>
+        <span matListItemTitle>Create Complaint</span>
+      </a>
+      <a
+        mat-list-item
+        routerLink="/current-complaints"
+        routerLinkActive="active"
+        (click)="closeSidenavOnMobile()"
+      >
+        <mat-icon matListItemIcon>pending_actions</mat-icon>
+        <span matListItemTitle>Ongoing</span>
+      </a>
+      <a
+        mat-list-item
+        routerLink="/complaints"
+        routerLinkActive="active"
+        (click)="closeSidenavOnMobile()"
+      >
+        <mat-icon matListItemIcon>report_problem</mat-icon>
+        <span matListItemTitle>Complaints</span>
+      </a>
+      <a mat-list-item (click)="onLogout()">
+        <mat-icon matListItemIcon>logout</mat-icon>
+        <span matListItemTitle>Logout</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <!-- Mobile toolbar with hamburger menu -->
+    <mat-toolbar class="mobile-toolbar" *ngIf="isMobile">
+      <button mat-icon-button (click)="toggleSidenav()" class="menu-button">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+      <app-footer></app-footer>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

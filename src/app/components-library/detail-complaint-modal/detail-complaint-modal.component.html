@@ -1,0 +1,28 @@
+<div *ngIf="showModal" class="modal-overlay" (click)="close()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">Update Complaint Status</div>
+
+    <div class="modal-form">
+        <p><strong>Title:</strong> {{ complaint.title }}</p>
+        <p><strong>Description:</strong> {{ complaint.description }}</p>
+        <p><strong>Area Name:</strong> {{ complaint.area_name }}</p>
+        <p><strong>Officer Name:</strong> {{ complaint.officer }}</p>
+        <p><strong>Status:</strong> {{ complaint.status }}</p>
+      
+        <div class="review-section">
+          <p><strong>Rating:</strong></p>
+          <div class="stars" aria-label="Rating">
+            <span *ngFor="let star of starsArray; let i = index"
+                  [ngClass]="{ filled: i < complaint.officer_ratings[0]?.rating }">★</span>
+          </div>
+        </div>
+      
+        <div class="comment-section">
+          <p><strong>Comment:</strong></p>
+          <p>{{ complaint.officer_ratings[0].comment || 'No comment provided.' }}</p>
+        </div>
+      
+        <button type="button" (click)="close()">Close</button>
+      </div>
+  </div>
+</div>

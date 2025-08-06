@@ -1,0 +1,133 @@
+<div class="profile-page">
+  <div class="container">
+    <!-- Header Section -->
+    <div class="page-header">
+      <h1>Profile Dashboard</h1>
+      <p>Manage your account and view your activity</p>
+    </div>
+
+    <!-- Profile Card -->
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="avatar-section">
+          <div class="avatar">
+            <span>{{ user.fullName[0] }}</span>
+          </div>
+        </div>
+
+        <div class="user-details">
+          <h2>{{ user.fullName }}</h2>
+          <span class="role-badge">{{ user.role }}</span>
+
+          <div class="info-grid">
+            <div class="info-item">
+              <i class="icon-user"></i>
+              <span class="label">Username:</span>
+              <span class="value">{{ user.fullName }}</span>
+            </div>
+            <div class="info-item">
+              <i class="icon-mail"></i>
+              <span class="label">Email:</span>
+              <span class="value">{{ user.email }}</span>
+            </div>
+            <div class="info-item">
+              <i class="icon-phone"></i>
+              <span class="label">Phone:</span>
+              <span class="value">{{ user.phone }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-section">
+          <button class="edit-btn" routerLink="/edit-profile">
+            <i class="icon-edit"></i>
+            Edit Profile
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-card">
+      <div class="card-header">
+        <h3>
+          <i class="icon-chart"></i>
+          Your Complaints Overview
+        </h3>
+      </div>
+      <div class="card-content">
+        <div class="stats-grid">
+          <!-- Total Complaints -->
+          <div class="stat-item total">
+            <div class="stat-content">
+              <div class="stat-info">
+                <p class="stat-label">Total Complaints</p>
+                <p class="stat-number">{{ totalCount }}</p>
+              </div>
+              <i class="icon-alert stat-icon"></i>
+            </div>
+            <div class="stat-decoration"></div>
+          </div>
+
+          <!-- Resolved Complaints -->
+          <div class="stat-item resolved">
+            <div class="stat-content">
+              <div class="stat-info">
+                <p class="stat-label">Resolved</p>
+                <p class="stat-number">{{ resolvedCount }}</p>
+              </div>
+              <i class="icon-check stat-icon"></i>
+            </div>
+            <div class="stat-decoration"></div>
+          </div>
+
+          <!-- Pending Complaints -->
+          <div class="stat-item pending">
+            <div class="stat-content">
+              <div class="stat-info">
+                <p class="stat-label">Pending</p>
+                <p class="stat-number">{{ pendingCount }}</p>
+              </div>
+              <i class="icon-clock stat-icon"></i>
+            </div>
+            <div class="stat-decoration"></div>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-section">
+          <div class="progress-header">
+            <span>Resolution Rate</span>
+            <span>{{ getResolutionRate() }}%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="getResolutionRate()"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="actions-card">
+      <div class="card-header">
+        <h3>Quick Actions</h3>
+      </div>
+      <div class="card-content">
+        <div class="actions-grid">
+          <button class="action-btn" routerLink="/edit-profile">
+            <i class="icon-edit"></i>
+            Edit Profile
+          </button>
+          <button class="action-btn" routerLink="/complaints">
+            <i class="icon-alert"></i>
+            View Complaints
+          </button>
+          <button class="action-btn" routerLink="/reports">
+            <i class="icon-chart"></i>
+            View Reports
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

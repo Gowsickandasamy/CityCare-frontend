@@ -1,0 +1,98 @@
+.edit-profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+}
+
+.profile-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 400px;
+  text-align: center;
+}
+
+.profile-logo {
+  width: 100px;
+  height: 100px;
+  background-color: #4a90e2;
+  border-radius: 50%;
+  color: white;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem auto;
+  font-weight: bold;
+}
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.password-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.password-group input[disabled] {
+  flex: 1;
+  background-color: #f1f1f1;
+  font-style: italic;
+  letter-spacing: 3px;
+}
+
+.change-btn {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.change-btn:hover {
+  background-color: #0056b3;
+}
+
+.submit-btn {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+  padding-top: 100px;
+}

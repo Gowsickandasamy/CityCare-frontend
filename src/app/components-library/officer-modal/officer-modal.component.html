@@ -1,0 +1,19 @@
+<div *ngIf="showModal" class="modal-overlay" (click)="close()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="close()" type="button">×</button>
+    
+    <div class="modal-header">{{ header }}</div>
+    <div class="modal-subtitle">Fill in the details below to add a new officer</div>
+    
+    <form [formGroup]="formGroup" class="modal-form" (ngSubmit)="submitForm()">
+      <ng-content></ng-content>
+      
+      <button 
+        type="submit" 
+        [disabled]="!formGroup.valid"
+        [class.loading]="isSubmitting">
+        {{ isSubmitting ? '' : 'Add Officer' }}
+      </button>
+    </form>
+  </div>
+</div>

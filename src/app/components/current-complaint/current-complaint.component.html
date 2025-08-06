@@ -1,0 +1,169 @@
+<div class="page-container">
+  <!-- Header -->
+  <div class="page-header">
+    <h1 class="page-title">Current Complaints</h1>
+    <p class="page-subtitle">Manage and track all active complaints</p>
+  </div>
+
+  <!-- Stats Cards - Only showing Pending, In Progress, and Total -->
+  <div class="stats-container">
+    <div class="stat-card pending">
+      <div class="stat-number">{{ getPendingCount() }}</div>
+      <div class="stat-label">PENDING</div>
+    </div>
+    <div class="stat-card progress">
+      <div class="stat-number">{{ getProgressCount() }}</div>
+      <div class="stat-label">IN PROGRESS</div>
+    </div>
+    <div class="stat-card total">
+      <div class="stat-number">{{ getTotalCount() }}</div>
+      <div class="stat-label">TOTAL</div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-container">
+    <div class="filter-section">
+      <div class="filter-label">Filter by Status:</div>
+      <div class="filter-buttons">
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedStatus === 'All'"
+          (click)="setStatus('All')">
+          All
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedStatus === 'PENDING'"
+          (click)="setStatus('PENDING')">
+          Pending
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedStatus === 'WORK_ON_PROGRESS'"
+          (click)="setStatus('WORK_ON_PROGRESS')">
+          In Progress
+        </button>
+      </div>
+    </div>
+    
+    <div class="search-section">
+      <div class="search-label">Search:</div>
+      <div class="search-box">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search by title, area, officer..."
+          [(ngModel)]="searchText"
+        />
+        <span class="search-icon">🔍</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="loading-spinner"></div>
+    <p>Loading complaints...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && filteredComplaints.length === 0" class="empty-state">
+    <p>No complaints found matching your criteria.</p>
+    <button class="reset-btn" (click)="searchText = ''; setStatus('All')">
+      Reset Filters
+    </button>
+  </div>
+
+  <!-- Complaints List -->
+  <div *ngIf="!isLoading && filteredComplaints.length > 0" class="complaints-list">
+    <div class="complaint-card" *ngFor="let complaint of filteredComplaints">
+      <div class="card-header">
+        <h3 class="complaint-title">{{ complaint.title }}</h3>
+        <div class="status-tag" [ngClass]="complaint.status === 'PENDING' ? 'pending-tag' : 'progress-tag'">
+          {{ complaint.status === 'PENDING' ? 'PENDING' : 'IN PROGRESS' }}
+        </div>
+      </div>
+      
+      <div class="card-body">
+        <p class="complaint-description">{{ complaint.description }}</p>
+        
+        <div class="complaint-details">
+          <div class="detail-item">
+            <span class="detail-icon">📍</span>
+            <span class="detail-label">Area:</span>
+            <span class="detail-value">{{ complaint.area_name }}</span>
+          </div>
+          
+          <div class="detail-item" *ngIf="userRole === 'USER' || userRole === 'ADMIN'">
+            <span class="detail-icon">👮</span>
+            <span class="detail-label">Officer:</span>
+            <span class="detail-value">{{ complaint.officer || 'Not assigned' }}</span>
+          </div>
+          
+          <div class="detail-item" *ngIf="userRole === 'OFFICER' || userRole === 'ADMIN'">
+            <span class="detail-icon">👤</span>
+            <span class="detail-label">Created by:</span>
+            <span class="detail-value">{{ complaint.user }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card-actions">
+        <a 
+          *ngIf="complaint.location_link" 
+          [href]="complaint.location_link" 
+          target="_blank" 
+          class="action-btn location-btn">
+          View Location
+        </a>
+        
+        <button 
+          *ngIf="userRole === 'USER'" 
+          [routerLink]="['/edit-complaint', complaint.id]"
+          class="action-btn edit-btn">
+          Edit
+        </button>
+        
+        <button 
+          *ngIf="userRole === 'OFFICER'" 
+          (click)="openStatusModal(complaint)"
+          class="action-btn status-btn">
+          Update Status
+        </button>
+        
+        <button 
+          *ngIf="userRole === 'USER'" 
+          (click)="deleteComplaint(complaint.id)"
+          class="action-btn delete-btn">
+          Delete
+        </button>
+
+        <button 
+          *ngIf="complaint.image" 
+          (click)="previewImage(complaint.image, complaint.title)"
+          class="action-btn preview-btn">
+          Preview Image
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <app-status-modal
+    *ngIf="showModal"
+    [showModal]="showModal"
+    [complaint]="selectedComplaint"
+    (closeModal)="closeStatusModal()"
+    (statusUpdated)="updateComplaintStatus($event)">
+  </app-status-modal>
+
+  <div *ngIf="showImagePreview" class="image-preview-modal" (click)="closeImagePreview()">
+    <div class="image-preview-content" (click)="$event.stopPropagation()">
+      <div class="image-preview-header">
+        <h3 class="image-preview-title">{{ previewImageTitle }}</h3>
+        <button class="close-btn" (click)="closeImagePreview()">×</button>
+      </div>
+      <img [src]="previewImageUrl" [alt]="previewImageTitle" class="preview-image">
+    </div>
+  </div>
+</div>

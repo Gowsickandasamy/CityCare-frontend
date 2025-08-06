@@ -1,0 +1,234 @@
+<section class="create-complaint">
+  <!-- Header Section -->
+  <div class="form-header">
+    <div class="header-content">
+      <div class="header-icon">
+        <i class="icon">📝</i>
+      </div>
+      <h1 class="title">{{title}}</h1>
+      <p class="subtitle">Help us improve your community by reporting municipal issues</p>
+    </div>
+    <div class="progress-indicator">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="getFormProgress()"></div>
+      </div>
+      <span class="progress-text">{{getFormProgress()}}% Complete</span>
+    </div>
+  </div>
+
+  <!-- Form Container -->
+  <div class="form-container">
+    <form [formGroup]="complaintForm" class="complaint-form" (ngSubmit)="onSubmit()">
+      
+      <!-- Form Grid -->
+      <div class="form-grid">
+        
+        <!-- Title Field -->
+        <div class="form-field full-width">
+          <div class="input-wrapper">
+            <div class="input-icon">
+              <i class="field-icon">📋</i>
+            </div>
+            <input 
+              id="title" 
+              class="input-text" 
+              type="text" 
+              formControlName="title" 
+              (input)="checkFilled($event)" 
+              required
+              placeholder=" ">
+            <label class="label" for="title">Complaint Title</label>
+            <div class="input-border"></div>
+          </div>
+          <div class="field-hint">Provide a clear, descriptive title for your complaint</div>
+          <div class="error-message" *ngIf="complaintForm.get('title')?.invalid && complaintForm.get('title')?.touched">
+            Title is required
+          </div>
+        </div>
+
+        <!-- Area Name Field -->
+        <div class="form-field">
+          <div class="input-wrapper">
+            <div class="input-icon">
+              <i class="field-icon">🏘️</i>
+            </div>
+            <input 
+              id="area_name" 
+              class="input-text" 
+              type="text" 
+              formControlName="area_name" 
+              (input)="checkFilled($event)" 
+              required
+              placeholder=" ">
+            <label class="label" for="area_name">Area/Neighborhood</label>
+            <div class="input-border"></div>
+          </div>
+          <div class="field-hint">Specify the area or neighborhood</div>
+          <div class="error-message" *ngIf="complaintForm.get('area_name')?.invalid && complaintForm.get('area_name')?.touched">
+            Area name is required
+          </div>
+        </div>
+
+        <!-- Category Field -->
+        <div class="form-field">
+          <div class="input-wrapper">
+            <div class="input-icon">
+              <i class="field-icon">🏷️</i>
+            </div>
+            <select class="input-text select-field" formControlName="category" (change)="checkFilled($event)">
+              <option value="" disabled selected>Select Category</option>
+              <option value="street-lighting">Street Lighting</option>
+              <option value="road-infrastructure">Road Infrastructure</option>
+              <option value="water-drainage">Water & Drainage</option>
+              <option value="waste-management">Waste Management</option>
+              <option value="parks-recreation">Parks & Recreation</option>
+              <option value="public-transport">Public Transport</option>
+              <option value="other">Other</option>
+            </select>
+            <label class="label select-label" for="category">Issue Category</label>
+            <div class="input-border"></div>
+          </div>
+          <div class="field-hint">Choose the most relevant category</div>
+        </div>
+
+        <!-- Priority Field -->
+        <div class="form-field">
+          <div class="priority-selector">
+            <label class="priority-label">Priority Level</label>
+            <div class="priority-options">
+              <label class="priority-option low" [class.selected]="complaintForm.get('priority')?.value === 'low'">
+                <input type="radio" formControlName="priority" value="low" (change)="checkFilled($event)">
+                <span class="priority-indicator"></span>
+                <span class="priority-text">Low</span>
+              </label>
+              <label class="priority-option medium" [class.selected]="complaintForm.get('priority')?.value === 'medium'">
+                <input type="radio" formControlName="priority" value="medium" (change)="checkFilled($event)">
+                <span class="priority-indicator"></span>
+                <span class="priority-text">Medium</span>
+              </label>
+              <label class="priority-option high" [class.selected]="complaintForm.get('priority')?.value === 'high'">
+                <input type="radio" formControlName="priority" value="high" (change)="checkFilled($event)">
+                <span class="priority-indicator"></span>
+                <span class="priority-text">High</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Location Field -->
+        <div class="form-field full-width">
+          <div class="input-wrapper location-wrapper">
+            <div class="input-icon">
+              <i class="field-icon">📍</i>
+            </div>
+            <input 
+              id="location" 
+              class="input-text" 
+              type="text" 
+              formControlName="location_link" 
+              (input)="checkFilled($event)" 
+              required
+              placeholder=" "
+              readonly>
+            <label class="label" for="location">Location</label>
+            <button type="button" class="location-btn" (click)="openModal($event)">
+              <i class="btn-icon">🗺️</i>
+              <span>Select Location</span>
+            </button>
+            <div class="input-border"></div>
+          </div>
+          <div class="field-hint">Click "Select Location" to choose the exact location on map</div>
+          <div class="error-message" *ngIf="complaintForm.get('location_link')?.invalid && complaintForm.get('location_link')?.touched">
+            Location is required
+          </div>
+        </div>
+
+        <!-- Description Field -->
+        <div class="form-field full-width">
+          <div class="input-wrapper textarea-wrapper">
+            <div class="input-icon">
+              <i class="field-icon">📝</i>
+            </div>
+            <textarea 
+              id="description" 
+              class="input-text textarea-field" 
+              formControlName="description" 
+              (input)="checkFilled($event)" 
+              required
+              placeholder=" "
+              rows="4"></textarea>
+            <label class="label textarea-label" for="description">Detailed Description</label>
+            <div class="input-border"></div>
+          </div>
+          <div class="field-hint">Provide a detailed description of the issue, including any relevant details</div>
+          <div class="character-count">
+            <span [class.warning]="getDescriptionLength() > 450">
+              {{getDescriptionLength()}}/500 characters
+            </span>
+          </div>
+          <div class="error-message" *ngIf="complaintForm.get('description')?.invalid && complaintForm.get('description')?.touched">
+            Description is required
+          </div>
+        </div>
+
+        <!-- Photo Upload Field -->
+        <div class="form-field full-width">
+          <div class="upload-section">
+            <div class="upload-header">
+              <i class="upload-icon">📷</i>
+              <h4>Attach Photos (Optional)</h4>
+              <p>Upload images to help illustrate the issue</p>
+            </div>
+            <div class="upload-area" (click)="triggerFileInput()" 
+                 (dragover)="onDragOver($event)" 
+                 (dragleave)="onDragLeave($event)" 
+                 (drop)="onDrop($event)">
+              <input type="file" #fileInput multiple accept="image/*" (change)="onFileSelected($event)" style="display: none;">
+              <div class="upload-content">
+                <i class="upload-placeholder">📁</i>
+                <p class="upload-text">Click to browse or drag and drop images here</p>
+                <span class="upload-formats">Supports: JPG, PNG, GIF (Max 5MB each)</span>
+              </div>
+            </div>
+            <div class="uploaded-files" *ngIf="uploadedFiles.length > 0">
+              <div class="file-item" *ngFor="let file of uploadedFiles; let i = index">
+                <img [src]="file.preview" alt="Preview" class="file-preview">
+                <span class="file-name">{{file.name}}</span>
+                <button type="button" class="remove-file" (click)="removeFile(i)">×</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="resetForm()">
+          <i class="btn-icon">🔄</i>
+          Reset Form
+        </button>
+        <button type="submit" class="btn-primary" [disabled]="!complaintForm.valid">
+          <i class="btn-icon">📤</i>
+          <span>{{isEditMode ? 'Update Complaint' : 'Submit Complaint'}}</span>
+          <div class="btn-loader" *ngIf="isSubmitting"></div>
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Map Modal -->
+  <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Select Location</h3>
+        <button class="modal-close" (click)="closeModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <app-map (close)="isModalOpen = false" (locationSelected)="receiveLocationLink($event)"></app-map>
+      </div>
+    </div>
+  </div>
+
+</section>

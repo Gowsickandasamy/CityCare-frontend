@@ -1,0 +1,213 @@
+<div class="home-container" @fadeInOut>
+  <!-- Hero Banner -->
+  <div class="banner fade-in-section" #fadeInElement>
+    <div class="hero-content">
+      <h1 class="title">CityCare</h1>
+      <h2 class="motto">Amplify Your Voice, Shape Your City</h2>
+      <p class="hero-description">
+        Report municipal issues, track progress, and collaborate with your community 
+        to build a better city for everyone.
+      </p>
+      <div class="hero-buttons">
+        <app-button buttonText="Get Started" routerLink="/signup" class="primary-btn"></app-button>
+        <app-button buttonText="Learn More" class="secondary-btn" (click)="scrollToSection('about')"></app-button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-number">2,500+</span>
+        <span class="stat-label">Issues Resolved</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">15,000+</span>
+        <span class="stat-label">Active Citizens</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">50+</span>
+        <span class="stat-label">Partner Cities</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Section -->
+  <div class="about-section fade-in-section" #fadeInElement id="about">
+    <div class="about-content">
+      <h2 class="about-title">About CityCare</h2>
+      <p class="about-text">
+        CityCare is a comprehensive platform that bridges the gap between citizens and municipal authorities. 
+        We empower residents to report infrastructure issues, submit suggestions, and actively participate 
+        in shaping their urban environment.
+      </p>
+      <div class="about-highlights">
+        <div class="highlight-item">
+          <div class="highlight-icon">🏛️</div>
+          <h4>Direct Communication</h4>
+          <p>Connect directly with city officials and municipal departments</p>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-icon">📊</div>
+          <h4>Real-time Tracking</h4>
+          <p>Monitor the progress of your complaints and city improvements</p>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-icon">🤝</div>
+          <h4>Community Driven</h4>
+          <p>Join forces with neighbors to address common concerns</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <div class="features fade-in-section" #fadeInElement>
+    <h2 class="section-title">How CityCare Works</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🚨</div>
+        <h3>Report Issues</h3>
+        <p>Submit municipal complaints like broken streetlights, potholes, water leaks, and more with photos and location details.</p>
+        <ul class="feature-list">
+          <li>Photo documentation</li>
+          <li>GPS location tracking</li>
+          <li>Category classification</li>
+          <li>Priority assessment</li>
+        </ul>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>Community Discussions</h3>
+        <p>Engage with fellow citizens, share experiences, and collaborate on solutions for neighborhood improvements.</p>
+        <ul class="feature-list">
+          <li>Public forums</li>
+          <li>Neighborhood groups</li>
+          <li>Expert consultations</li>
+          <li>Solution sharing</li>
+        </ul>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📢</div>
+        <h3>City Updates</h3>
+        <p>Stay informed about ongoing projects, policy changes, and municipal announcements that affect your community.</p>
+        <ul class="feature-list">
+          <li>Project timelines</li>
+          <li>Budget allocations</li>
+          <li>Policy updates</li>
+          <li>Event notifications</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Issue Categories Section -->
+  <div class="categories-section fade-in-section" #fadeInElement>
+    <h2 class="section-title">Common Municipal Issues</h2>
+    <p class="section-subtitle">Report any of these common city problems and help improve your neighborhood</p>
+    <div class="categories-grid">
+      <div class="category-card">
+        <div class="category-icon">💡</div>
+        <h4>Street Lighting</h4>
+        <p>Broken streetlights, dark areas, electrical issues</p>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">🛣️</div>
+        <h4>Road Infrastructure</h4>
+        <p>Potholes, damaged roads, traffic signal problems</p>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">💧</div>
+        <h4>Water & Drainage</h4>
+        <p>Water leaks, blocked drains, sewage issues</p>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">🗑️</div>
+        <h4>Waste Management</h4>
+        <p>Garbage collection, illegal dumping, recycling</p>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">🌳</div>
+        <h4>Parks & Recreation</h4>
+        <p>Park maintenance, playground safety, green spaces</p>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">🚌</div>
+        <h4>Public Transport</h4>
+        <p>Bus stops, accessibility, route issues</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Process Section -->
+  <div class="process-section fade-in-section" #fadeInElement>
+    <h2 class="section-title">Simple 4-Step Process</h2>
+    <div class="process-steps">
+      <div class="step-item">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h4>Report</h4>
+          <p>Take a photo and describe the issue with location details</p>
+        </div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step-item">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h4>Review</h4>
+          <p>Municipal authorities review and categorize your complaint</p>
+        </div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step-item">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h4>Action</h4>
+          <p>Relevant department takes action to resolve the issue</p>
+        </div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step-item">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h4>Update</h4>
+          <p>Receive notifications about progress and completion</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Stories Section -->
+  <div class="success-section fade-in-section" #fadeInElement>
+    <h2 class="section-title">Success Stories</h2>
+    <div class="success-grid">
+      <div class="success-card">
+        <div class="success-image">🌟</div>
+        <h4>Streetlight Restoration</h4>
+        <p>"Reported 15 broken streetlights in our neighborhood. All were fixed within 2 weeks!"</p>
+        <span class="success-author">- Sarah M., Downtown Resident</span>
+      </div>
+      <div class="success-card">
+        <div class="success-image">🚧</div>
+        <h4>Road Repair Project</h4>
+        <p>"The pothole on Main Street that damaged cars for months was finally repaired after our community report."</p>
+        <span class="success-author">- Mike R., Community Leader</span>
+      </div>
+      <div class="success-card">
+        <div class="success-image">🌳</div>
+        <h4>Park Renovation</h4>
+        <p>"Our local park got new equipment and better lighting thanks to CityCare community feedback."</p>
+        <span class="success-author">- Lisa K., Parent</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <div class="cta-section fade-in-section" #fadeInElement>
+    <div class="cta-content">
+      <h2>Ready to Make a Difference?</h2>
+      <p>Join thousands of citizens who are actively improving their communities through CityCare</p>
+      <div class="cta-buttons">
+        <app-button buttonText="Start Reporting Issues" routerLink="/createComplaint" class="cta-primary"></app-button>
+        <app-button buttonText="View Public Reports" routerLink="/complaints" class="cta-secondary"></app-button>
+      </div>
+    </div>
+  </div>
+</div>

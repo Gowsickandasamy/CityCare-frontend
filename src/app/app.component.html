@@ -1,0 +1,6 @@
+<ng-container *ngIf="isLoggedIn | async; else authRoutes">
+  <app-sidebar></app-sidebar>
+</ng-container>
+<ng-template #authRoutes>
+  <router-outlet></router-outlet>
+</ng-template>

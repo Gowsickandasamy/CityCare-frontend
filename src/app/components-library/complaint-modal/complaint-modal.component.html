@@ -1,0 +1,49 @@
+<div *ngIf="showModal" class="modal-overlay" (click)="close()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">Update Complaint Status</div>
+
+    <form [formGroup]="reviewForm" class="modal-form" (ngSubmit)="sendReview()">
+      <p><strong>Title:</strong> {{ complaint.title }}</p>
+      <p><strong>Description:</strong> {{ complaint.description }}</p>
+      <p><strong>Area Name:</strong> {{ complaint.area_name }}</p>
+      <p><strong>Officer Name:</strong> {{ complaint.officer }}</p>
+      <p><strong>Status:</strong>{{ complaint.status }}</p>
+
+      <div class="review-section">
+        <label id="ratingLabel"><strong>Rating:</strong></label>
+        <div class="stars" role="radiogroup" aria-labelledby="ratingLabel">
+          <span
+            *ngFor="let star of starsArray; let i = index"
+            [ngClass]="{ filled: i < rating }"
+            (click)="setRating(i + 1)"
+            role="radio"
+            [attr.aria-checked]="i + 1 === rating"
+            tabindex="0"
+          >
+            ★
+          </span>
+        </div>
+
+        <input
+          id="rating"
+          type="hidden"
+          formControlName="rating"
+          [value]="rating"
+        />
+      </div>
+
+      <div class="comment-section">
+        <label for="comment"><strong>Comment:</strong></label>
+        <textarea
+          id="comment"
+          formControlName="comment"
+          rows="3"
+          placeholder="Enter your feedback here..."
+        ></textarea>
+      </div>
+
+      <button type="submit">Send Review</button>
+      <button type="button" (click)="close()">Cancel</button>
+    </form>
+  </div>
+</div>

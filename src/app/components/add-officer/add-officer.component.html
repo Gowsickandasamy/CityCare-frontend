@@ -1,0 +1,205 @@
+<div class="add-officer-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="container">
+      <div class="header-content">
+        <div class="header-text">
+          <div class="breadcrumb">
+            <span>Admin Dashboard</span>
+            <span class="separator">›</span>
+            <span class="active">Officer Management</span>
+          </div>
+          <h1 class="main-title">Officer Management</h1>
+          <p class="main-subtitle">
+            Efficiently manage your team by adding new officers and assigning them to specific areas.
+          </p>
+          <div class="action-buttons">
+            <button class="btn btn-primary" (click)="openModal()">
+              ➕ Add New Officer
+            </button>
+            <button class="btn btn-secondary" routerLink="/officersList">
+              📋 View All Officers
+            </button>
+          </div>
+        </div>
+        
+        <!-- Dynamic Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card" *ngFor="let stat of getStats()" [class.loading]="stat.loading">
+            <div class="stat-icon">{{ stat.icon }}</div>
+            <div class="stat-content">
+              <div class="stat-value" [class.shimmer]="stat.loading">{{ stat.value }}</div>
+              <div class="stat-label">{{ stat.label }}</div>
+            </div>
+            <div class="loading-overlay" *ngIf="stat.loading">
+              <div class="mini-spinner"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Guide Section -->
+  <div class="guide-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">How to Add an Officer</h2>
+        <p class="section-subtitle">Follow these simple steps</p>
+      </div>
+      
+      <div class="steps-container">
+        <div class="step-item">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <h3>Enter Officer Details</h3>
+            <p>Provide basic information including name, email, and contact details</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <h3>Assign Area of Control</h3>
+            <p>Specify the area the officer will manage</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <h3>Submit & Activate</h3>
+            <p>Review and create the officer profile</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Enhanced Features Section -->
+  <div class="features-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Key Benefits</h2>
+        <p class="section-subtitle">Streamline your administrative processes</p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Area Management</h3>
+          <p>Assign officers to specific areas for improved governance and enhanced responsibility handling.</p>
+          <div class="feature-stat" *ngIf="!isLoadingStats">
+            <small>{{ getActiveAreas() }} areas currently managed</small>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💬</div>
+          <h3>Direct Communication</h3>
+          <p>Facilitate direct reporting and communication between officers and admins for better coordination.</p>
+          <div class="feature-stat" *ngIf="!isLoadingStats">
+            <small>{{ getTotalOfficers() }} officers in your network</small>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📈</div>
+          <h3>Performance Tracking</h3>
+          <p>Monitor officer activities and performance to ensure efficient management and accountability.</p>
+          <div class="feature-stat" *ngIf="!isLoadingStats">
+            <small>{{ getOfficersWithHighRating() }} high-performing officers</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Additional Stats Section -->
+  <div class="additional-stats-section" *ngIf="!isLoadingStats && getTotalOfficers() > 0">
+    <div class="container">
+      <div class="stats-overview">
+        <h3>Quick Overview</h3>
+        <div class="overview-grid">
+          <div class="overview-item">
+            <div class="overview-label">Top Performing Area</div>
+            <div class="overview-value">{{ getTopPerformingArea() }}</div>
+          </div>
+          <div class="overview-item">
+            <div class="overview-label">High-Rated Officers</div>
+            <div class="overview-value">{{ getOfficersWithHighRating() }}/{{ getTotalOfficers() }}</div>
+          </div>
+          <div class="overview-item">
+            <div class="overview-label">Average Performance</div>
+            <div class="overview-value">{{ getAverageRating() }}/5.0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Officer Modal -->
+  <app-officer-modal
+    [header]="'Add New Officer'"
+    [formGroup]="OfficerForm"
+    [showModal]="showModal"
+    (closeModal)="closeModal()"
+    (formSubmit)="submitOfficerForm()"
+  >
+    <div class="modal-form">
+      <form [formGroup]="OfficerForm" (ngSubmit)="submitOfficerForm()">
+        <div class="form-group">
+          <label>Officer Name *</label>
+          <input
+            type="text"
+            placeholder="Enter full name"
+            formControlName="username"
+            [class.error]="getFieldError('username')"
+          />
+          <div class="error-message" *ngIf="getFieldError('username')">
+            {{ getFieldError('username') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input
+            type="email"
+            placeholder="officer@example.com"
+            formControlName="email"
+            [class.error]="getFieldError('email')"
+          />
+          <div class="error-message" *ngIf="getFieldError('email')">
+            {{ getFieldError('email') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input
+            type="tel"
+            placeholder="1234567890"
+            formControlName="phone_number"
+            [class.error]="getFieldError('phone_number')"
+          />
+          <div class="error-message" *ngIf="getFieldError('phone_number')">
+            {{ getFieldError('phone_number') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Area of Control *</label>
+          <input
+            type="text"
+            placeholder="e.g., Downtown District, North Zone"
+            formControlName="area_of_control"
+            [class.error]="getFieldError('area_of_control')"
+          />
+          <div class="error-message" *ngIf="getFieldError('area_of_control')">
+            {{ getFieldError('area_of_control') }}
+          </div>
+        </div>
+
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+      </form>
+    </div>
+  </app-officer-modal>
+</div>
