@@ -10,7 +10,7 @@ import { Officer } from '../../models/officer';
 
 @Component({
   selector: 'app-add-officer',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, ButtonComponent, OfficerModalComponent, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, OfficerModalComponent, RouterLink],
   templateUrl: './add-officer.component.html',
   styleUrl: './add-officer.component.css'
 })

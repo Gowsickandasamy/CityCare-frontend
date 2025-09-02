@@ -8,7 +8,7 @@ import { Complaint } from '../models/complaint';
 })
 export class ComplaintService {
 
-  private baseUrl = 'http://127.0.0.1:8000';
+  private baseUrl = 'https://citycare-backend-1.onrender.com';
   private complaintUrl = `${this.baseUrl}/complaints`;
   private officerUrl = `${this.baseUrl}/officer`;
 

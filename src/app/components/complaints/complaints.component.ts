@@ -217,7 +217,7 @@ export class ComplaintsComponent implements OnInit {
   }
 
   previewImage(image: string, title: string): void {
-    this.previewImageUrl = `http://localhost:8000${image}`;;
+    this.previewImageUrl = `https://citycare-backend-1.onrender.com${image}`;;
     this.previewImageTitle = title;
     this.showImagePreview = true;
   }

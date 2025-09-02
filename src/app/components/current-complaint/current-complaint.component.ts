@@ -159,12 +159,15 @@ export class CurrentComplaintComponent implements OnInit {
   }
 
   previewImage(image: string, title: string): void {
-    this.previewImageUrl = `http://localhost:8000${image}`;;
+    // If the image already starts with http(s), use it as-is; otherwise, prefix backend domain
+    this.previewImageUrl = image.startsWith('http')
+      ? image
+      : `https://citycare-backend-1.onrender.com${image}`;
+
     this.previewImageTitle = title;
     this.showImagePreview = true;
-    console.log(this.previewImageUrl)
+    console.log(this.previewImageUrl);
   }
-
   closeImagePreview(): void {
     this.showImagePreview = false;
     this.previewImageUrl = '';

@@ -164,9 +164,8 @@ export class CreateComplaintComponent implements OnInit {
     formData.append('area_name', formValue.area_name);
     formData.append('location_link', formValue.location_link);
 
-    // Add image if uploaded
     if (this.uploadedFiles.length > 0) {
-      formData.append('image', this.uploadedFiles[0].file); // assuming single image
+      formData.append('image', this.uploadedFiles[0].file);
     }
 
     return formData;

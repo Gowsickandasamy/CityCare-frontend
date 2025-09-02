@@ -7,7 +7,7 @@ import { User } from '../models/user';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://127.0.0.1:8000/auth';
+  private apiUrl = 'https://citycare-backend-1.onrender.com/auth';
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasValidTokens());
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 

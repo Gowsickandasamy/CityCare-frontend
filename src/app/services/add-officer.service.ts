@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 })
 export class AddOfficerService {
 
-  private apiUrl = "http://127.0.0.1:8000/officer"
+  private apiUrl = "https://citycare-backend-1.onrender.com/officer"
 
   constructor(private http: HttpClient) { }
 
